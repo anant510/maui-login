@@ -1,0 +1,78 @@
+﻿@page "/login"
+@using Newtonsoft.Json
+
+<h3>Login</h3>
+<form>
+    <div class="container">
+        <div class="mb-3">
+        <label for="Username">Username:</label>
+        <input type="text" id="Username" @bind="Username" />
+        </div>
+    <br />
+        <div class="mb-3">
+        <label for="Password">Password:</label>
+        <input type="password" id="Password" @bind="Password" />
+        </div>
+    <div class="mb-3">
+        <button type="button" @onclick="HandleLogin">Login</button>
+    </div>
+    </div>
+</form>
+
+<p style="color: red;">@Message</p>
+
+
+@code {
+
+    public class User
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
+
+    private string Username { get; set; }
+    private string Password { get; set; }
+    private string Message { get; set; }
+
+    private void HandleLogin()
+    {
+        if (ValidateLogin(Username, Password))
+        {
+            Message = "Login successful!";
+            // Navigate to another page or perform other actions
+        }
+        else
+        {
+            Message = "Invalid username or password.";
+        }
+    }
+
+    private bool ValidateLogin(string username, string password)
+    {
+        var json = @"
+        [
+          {
+            ""Username"": ""user1"",
+            ""Password"": ""password1""
+          },
+          {
+            ""Username"": ""user2"",
+            ""Password"": ""password2""
+          }
+        ]";
+
+        var users = JsonConvert.DeserializeObject<List<User>>(json);
+
+        foreach (var user in users)
+        {
+            if (user.Username == username && user.Password == password)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+}

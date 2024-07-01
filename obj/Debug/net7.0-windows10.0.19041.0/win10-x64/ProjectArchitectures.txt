@@ -1,0 +1,1 @@
+C:\Users\Dell\Desktop\maui\login\loginNew\loginNew.csproj;x64
